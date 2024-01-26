@@ -1,0 +1,45 @@
+---
+title: "20211101008"
+format: html
+editor: visual
+---
+
+## İlçe Bazında hanelerde haftalık spor yapılan gün sayısı verisi
+dosya_yolu <- file.choose()
+print(dosya_yolu)
+
+install.packages("readxl")
+library(readxl)
+veri <- read_excel("/Users/burakustundag/Downloads/3-vdym-ilce-baznda-hanelerdeki-haftalk-spor-yaplan-gun-says.xlsx", sheet = "D1.4.A-Devam")
+print(veri)
+
+## Summary
+summary(veri)
+
+## Veri grafiği
+install.packages(c("tidyverse", "ggplot2"))
+library(tidyverse)
+ggplot(veri, aes(x = İlçe, y = `Bir Haftada Ortalama Spor Yapma Günü`)) +
+  geom_point() +
+  labs(title = "İlçelerde Haftada Ortalama Spor Yapma Günü", x = "İlçeler", y = "Bir Haftada Ortalama Spor Yapma Günü") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+##histogram
+ggplot(veri, aes(x = `Bir Haftada Ortalama Spor Yapma Günü`)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black", alpha = 0.7) +
+  labs(title = "Haftada Ortalama Spor Yapma Günü Histogramı", x = "Bir Haftada Ortalama Spor Yapma Günü", y = "Frekans") +
+  theme_minimal()
+## veri silme
+library(tidyverse)
+veri$`Bir Haftada Ortalama Spor Yapma Günü`[2] <- NA
+print(veri)
+
+## veri ekleme (bu yöntemde boş olmayan diğer verilerdeki değerlerin ortalamasını alıp boş değere atar.)
+library(tidyverse)
+veri$`Bir Haftada Ortalama Spor Yapma Günü`[is.na(veri$`Bir Haftada Ortalama Spor Yapma Günü`)] <- mean(veri$`Bir Haftada Ortalama Spor Yapma Günü`, na.rm = TRUE)
+print(veri)
+
+
+
+
+
+
